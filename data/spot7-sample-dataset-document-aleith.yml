@@ -1,0 +1,54 @@
+id: ca319607-6c65-4444-9c4c-056be4678377
+$schema: 'https://schemas.opendatacube.org/dataset'
+
+label: S7-E28S27-20150526-074720-P-SEN-SPOT7_20200221_0653001fh8m619c6p8j_1_ORTHO_PSH
+
+product:
+  name: spot7_ard_scene_aleith
+
+crs: 'epsg:32635'
+
+geometry:
+  type: Polygon
+  coordinates: [
+    [
+      [-5192413, 4695401],
+      [-5189312, 4693327],
+      [-5185112, 4699665],
+      [-5188207, 4701740],
+      [-5192413, 4695401]
+    ]
+  ]
+
+grids:
+  default:
+    shape: [1968, 3188]
+    transform: [1.5, 0, 618420, 0, -1.5, -2975700, 0, 0, 1]
+
+measurements:
+  red:
+    layer: 1
+    path:  /DESASTORE1/Output/ARD/Gauteng-rel-old/9_Pansharpen-MRAFusion/S7-E28S27-20150526-074720-P-SEN-SPOT7_20200221_0653001fh8m619c6p8j_1_ORTHO_PSH.pix
+  green:
+    layer: 2
+    path:  /DESASTORE1/Output/ARD/Gauteng-rel-old/9_Pansharpen-MRAFusion/S7-E28S27-20150526-074720-P-SEN-SPOT7_20200221_0653001fh8m619c6p8j_1_ORTHO_PSH.pix
+  blue:
+    layer: 3
+    path:  /DESASTORE1/Output/ARD/Gauteng-rel-old/9_Pansharpen-MRAFusion/S7-E28S27-20150526-074720-P-SEN-SPOT7_20200221_0653001fh8m619c6p8j_1_ORTHO_PSH.pix
+  nir:
+    layer: 4
+    path:  /DESASTORE1/Output/ARD/Gauteng-rel-old/9_Pansharpen-MRAFusion/S7-E28S27-20150526-074720-P-SEN-SPOT7_20200221_0653001fh8m619c6p8j_1_ORTHO_PSH.pix
+  spclass:
+    layer: 5
+    path:  /DESASTORE1/Output/ARD/Gauteng-rel-old/9_Pansharpen-MRAFusion/S7-E28S27-20150526-074720-P-SEN-SPOT7_20200221_0653001fh8m619c6p8j_1_ORTHO_PSH.pix
+
+properties:
+  eo:platform: SPOT-7
+  processing_level: Level 4
+  product_type: ARD
+  groundstation_code: DRS
+  datetime: '2015-05-26T07:47:20.000000Z'
+  odc:processing_datetime: '2015-05-26T07:47:20.000000Z'
+
+lineage:
+  source_datasets: {}

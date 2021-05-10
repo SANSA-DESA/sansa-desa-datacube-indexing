@@ -1,0 +1,65 @@
+id: {{ id_ }}
+$schema: "https://schemas.opendatacube.org/dataset"
+
+label: {{ label }}
+
+product:
+  name: {{ product }}
+
+crs: "epsg:32635"
+
+geometry:
+  type: Polygon
+  coordinates: [
+    [
+      [{{ coord1_x }}, {{ coord1_y }}],
+      [{{ coord2_x }}, {{ coord2_y }}],
+      [{{ coord3_x }}, {{ coord3_y }},
+      [{{ coord4_x}}, {{ coord4_y}},
+      [{{ coord1_x }}, {{ coord1_y }}]
+    ]
+  ]
+
+grids:
+  default:
+    shape: [{{ shape_x }}, {{ shape_y }}]
+    transform:
+      - {{ transform1 }}
+      - {{ transform2 }}
+      - {{ transform3 }}
+      - {{ transform4 }}
+      - {{ transform5 }}
+      - {{ transform6 }}
+      - {{ transform7 }}
+      - {{ transform8 }}
+      - {{ transform9 }}
+
+measurements:
+  red:
+    layer: {{ red_layer }}
+    path: {{ psh_path }}
+  green:
+    layer: {{ green_layer }}
+    path: {{ psh_path }}
+  blue:
+    layer: {{ blue_layer }}
+    path: {{ psh_path }}
+  nir:
+    layer: {{ nir_layer }}
+    path: {{ psh_path }}
+  spclass:
+    layer: {{ spclass_layer }}
+    path: {{ cls_path }}
+
+properties:
+  datetime: {{ datetime }}
+  odc:processing_datetime: {{ processing_datetime }}
+  eo:platform: {{ platform }}
+  processing:level: L4
+  desa:product_type: ARD
+  desa:groundstation_code: DRS
+
+lineage:
+  source_datasets: {}
+
+---

@@ -42,9 +42,9 @@ def main(
         if output_path is not None:
             echo(f"Generating dataset document file at: {str(output_path)!r}...")
             fh = output_path.open("w", encoding="utf-8")
-        for item in datasets_directory.glob(dataset_pattern or "*"):
+        for index, item in enumerate(datasets_directory.glob(dataset_pattern or "*")):
             if item.is_file() and DesaSpotArdFileType.PSH.value in item.stem:
-                echo(f"Processing dataset {item.name!r}...")
+                typer.secho(f"{index!r} - Processing dataset {item.name!r}...")
                 cls_item = item.parent / item.name.replace(
                     DesaSpotArdFileType.PSH.value, DesaSpotArdFileType.CLS.value)
                 if not cls_item.is_file():

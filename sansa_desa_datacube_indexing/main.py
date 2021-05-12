@@ -17,6 +17,7 @@ app = typer.Typer()
 jinja_env = Environment(
     loader=FileSystemLoader(str(Path(__file__).resolve().parents[0] / "templates")),
     trim_blocks=True,
+    keep_trailing_newline=True,
 )
 
 

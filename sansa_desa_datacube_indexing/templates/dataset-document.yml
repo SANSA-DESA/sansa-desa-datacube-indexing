@@ -14,8 +14,8 @@ geometry:
     [
       [{{ coord1_x }}, {{ coord1_y }}],
       [{{ coord2_x }}, {{ coord2_y }}],
-      [{{ coord3_x }}, {{ coord3_y }},
-      [{{ coord4_x}}, {{ coord4_y}},
+      [{{ coord3_x }}, {{ coord3_y }}],
+      [{{ coord4_x }}, {{ coord4_y }}],
       [{{ coord1_x }}, {{ coord1_y }}]
     ]
   ]

@@ -51,7 +51,15 @@ def main(
                     DesaSpotArdFileType.PSH.value, DesaSpotArdFileType.CLS.value)
                 if not cls_item.is_file():
                     echo(f"Could not find {cls_item.name!r}", fg=typer.colors.MAGENTA)
-                rendered = process_spot_dataset(product, item, cls_item)
+                try:
+                    rendered = process_spot_dataset(product, item, cls_item)
+                except rasterio.errors.RasterioIOError as exc:
+                    echo(
+                        f"Could not process {item.name!r}: {exc}",
+                        fg=typer.colors.WHITE,
+                        bg=typer.colors.RED
+                    )
+                    continue
                 echo(rendered, fg=typer.colors.BLUE)
                 if fh is not None:
                     fh.write(rendered)

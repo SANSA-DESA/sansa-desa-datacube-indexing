@@ -1,7 +1,5 @@
 import enum
 import functools
-import io
-import itertools
 import typing
 import uuid
 from pathlib import Path
@@ -37,10 +35,10 @@ def main(
         verbose: typing.Optional[bool] = False,
 ):
     echo = functools.partial(_maybe_echo, verbose)
-    # not using a context manager here because `output_path` is optional
-    fh = None
     spectral_class_dir = (
             datasets_directory_spectral_classification or datasets_directory)
+    # not using a context manager here because `output_path` is optional
+    fh = None
     try:
         if output_path is not None:
             echo(f"Generating dataset document file at: {str(output_path)!r}...")
@@ -52,7 +50,7 @@ def main(
                     DesaSpotArdFileType.PSH.value, DesaSpotArdFileType.CLS.value)
                 if not cls_item.is_file():
                     echo(f"Could not find {cls_item.name!r}", fg=typer.colors.MAGENTA)
-                rendered = process_spot_dataset(product, item)
+                rendered = process_spot_dataset(product, item, cls_item)
                 echo(rendered, fg=typer.colors.BLUE)
                 if fh is not None:
                     fh.write(rendered)
@@ -62,7 +60,11 @@ def main(
 
 
 @app.command()
-def process_spot_dataset(product: str, psh_dataset: Path) -> str:
+def process_spot_dataset(
+        product: str,
+        psh_dataset: Path,
+        cls_dataset: Path,
+) -> str:
     template = jinja_env.get_template("dataset-document.yml")
     with rasterio.open(psh_dataset) as ds:
         ds_tags = ds.tags()
@@ -111,8 +113,7 @@ def process_spot_dataset(product: str, psh_dataset: Path) -> str:
             nir_layer=band_names["nir"],
             spclass_layer=1,
             psh_path=ds.name,
-            cls_path=ds.name.replace(
-                DesaSpotArdFileType.PSH.value, DesaSpotArdFileType.CLS.value),
+            cls_path=str(cls_dataset),
             platform=ds_tags["PlatformName"],
             datetime=ds_tags["Acquisition_DateTime"],
             processing_datetime=ds_tags.get("PRODUCTION_DATE", processing_datetime),
@@ -130,7 +131,6 @@ def _maybe_echo(verbose: bool, msg: str, **kwargs):
 
     if verbose:
         typer.secho(msg, **kwargs)
-
 
 
 if __name__ == "__main__":

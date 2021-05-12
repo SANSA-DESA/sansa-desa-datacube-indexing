@@ -54,7 +54,7 @@ def main(
                 try:
                     rendered = process_spot_dataset(product, item, cls_item)
                 except rasterio.errors.RasterioIOError as exc:
-                    echo(
+                    typer.secho(
                         f"Could not process {item.name!r}: {exc}",
                         fg=typer.colors.WHITE,
                         bg=typer.colors.RED

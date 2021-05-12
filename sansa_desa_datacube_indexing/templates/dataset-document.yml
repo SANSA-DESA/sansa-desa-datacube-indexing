@@ -1,12 +1,12 @@
 id: {{ id_ }}
-$schema: "https://schemas.opendatacube.org/dataset"
+$schema: 'https://schemas.opendatacube.org/dataset'
 
 label: {{ label }}
 
 product:
   name: {{ product }}
 
-crs: "epsg:32635"
+crs: 'epsg:32635'
 
 geometry:
   type: Polygon
@@ -52,8 +52,8 @@ measurements:
     path: {{ cls_path }}
 
 properties:
-  datetime: {{ datetime }}
-  odc:processing_datetime: {{ processing_datetime }}
+  datetime: '{{ datetime }}'
+  odc:processing_datetime: '{{ processing_datetime }}'
   eo:platform: {{ platform }}
   processing:level: L4
   desa:product_type: ARD

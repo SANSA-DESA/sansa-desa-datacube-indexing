@@ -31,6 +31,7 @@ class DesaSpotArdFileType(enum.Enum):
 def main(
         product: str,
         datasets_directory: Path,
+        datasets_directory_spectral_classification: typing.Optional[Path] = None,
         dataset_pattern: typing.Optional[str] = None,
         output_path: typing.Optional[Path] = None,
         verbose: typing.Optional[bool] = False,
@@ -38,6 +39,8 @@ def main(
     echo = functools.partial(_maybe_echo, verbose)
     # not using a context manager here because `output_path` is optional
     fh = None
+    spectral_class_dir = (
+            datasets_directory_spectral_classification or datasets_directory)
     try:
         if output_path is not None:
             echo(f"Generating dataset document file at: {str(output_path)!r}...")
@@ -45,7 +48,7 @@ def main(
         for index, item in enumerate(datasets_directory.glob(dataset_pattern or "*")):
             if item.is_file() and DesaSpotArdFileType.PSH.value in item.stem:
                 typer.secho(f"{index!r} - Processing dataset {item.name!r}...")
-                cls_item = item.parent / item.name.replace(
+                cls_item = spectral_class_dir / item.name.replace(
                     DesaSpotArdFileType.PSH.value, DesaSpotArdFileType.CLS.value)
                 if not cls_item.is_file():
                     echo(f"Could not find {cls_item.name!r}", fg=typer.colors.MAGENTA)
@@ -78,6 +81,7 @@ def process_spot_dataset(product: str, psh_dataset: Path) -> str:
                 )
             )
         )
+        processing_datetime = psh_dataset.stem.split("_")[1]
         rendered = template.render(
             id_=uuid.uuid4(),
             label=psh_dataset.stem.replace(f"_{DesaSpotArdFileType.PSH.value}", ""),
@@ -111,7 +115,7 @@ def process_spot_dataset(product: str, psh_dataset: Path) -> str:
                 DesaSpotArdFileType.PSH.value, DesaSpotArdFileType.CLS.value),
             platform=ds_tags["PlatformName"],
             datetime=ds_tags["Acquisition_DateTime"],
-            processing_datetime=ds_tags["PRODUCTION_DATE"],
+            processing_datetime=ds_tags.get("PRODUCTION_DATE", processing_datetime),
         )
         return rendered
 

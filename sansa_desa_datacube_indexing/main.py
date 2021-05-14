@@ -45,7 +45,7 @@ def main(
             echo(f"Generating dataset document file at: {str(output_path)!r}...")
             fh = output_path.open("w", encoding="utf-8")
         for index, item in enumerate(datasets_directory.glob(dataset_pattern or "*")):
-            if index > 0:
+            if index > 0 and fh is not None:
                 fh.write("---\n")
             if item.is_file() and DesaSpotArdFileType.PSH.value in item.stem:
                 typer.secho(f"{index!r} - Processing dataset {item.name!r}...")

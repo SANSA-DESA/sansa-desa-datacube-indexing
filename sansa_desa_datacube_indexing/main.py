@@ -29,6 +29,7 @@ class DesaSpotArdFileType(enum.Enum):
 @app.command()
 def main(
         product: str,
+        crs: str,
         datasets_directory: Path,
         datasets_directory_spectral_classification: typing.Optional[Path] = None,
         dataset_pattern: typing.Optional[str] = None,
@@ -54,7 +55,7 @@ def main(
                 if not cls_item.is_file():
                     echo(f"Could not find {cls_item.name!r}", fg=typer.colors.MAGENTA)
                 try:
-                    rendered = process_spot_dataset(product, item, cls_item)
+                    rendered = process_spot_dataset(product, crs, item, cls_item)
                 except rasterio.errors.RasterioIOError as exc:
                     typer.secho(
                         f"Could not process {item.name!r}: {exc}",
@@ -73,6 +74,7 @@ def main(
 @app.command()
 def process_spot_dataset(
         product: str,
+        crs: str,
         psh_dataset: Path,
         cls_dataset: Path,
 ) -> str:
@@ -99,6 +101,7 @@ def process_spot_dataset(
             id_=uuid.uuid4(),
             label=psh_dataset.stem.replace(f"_{DesaSpotArdFileType.PSH.value}", ""),
             product=product,
+            crs=crs,
             coord1_x=int(geo_interface_mapping["coordinates"][0][0][0]),
             coord1_y=int(geo_interface_mapping["coordinates"][0][0][1]),
             coord2_x=int(geo_interface_mapping["coordinates"][0][1][0]),

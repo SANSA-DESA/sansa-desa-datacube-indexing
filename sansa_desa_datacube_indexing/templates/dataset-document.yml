@@ -6,7 +6,7 @@ label: {{ label }}
 product:
   name: {{ product }}
 
-crs: 'epsg:32635'
+crs: {{ crs }}
 
 geometry:
   type: Polygon

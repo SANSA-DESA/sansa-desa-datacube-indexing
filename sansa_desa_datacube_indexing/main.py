@@ -29,7 +29,6 @@ class DesaSpotArdFileType(enum.Enum):
 @app.command()
 def main(
         product: str,
-        crs: str,
         datasets_directory: Path,
         datasets_directory_spectral_classification: typing.Optional[Path] = None,
         dataset_pattern: typing.Optional[str] = None,
@@ -55,7 +54,7 @@ def main(
                 if not cls_item.is_file():
                     echo(f"Could not find {cls_item.name!r}", fg=typer.colors.MAGENTA)
                 try:
-                    rendered = process_spot_dataset(product, crs, item, cls_item)
+                    rendered = process_spot_dataset(product, item, cls_item)
                 except rasterio.errors.RasterioIOError as exc:
                     typer.secho(
                         f"Could not process {item.name!r}: {exc}",
@@ -74,13 +73,13 @@ def main(
 @app.command()
 def process_spot_dataset(
         product: str,
-        crs: str,
         psh_dataset: Path,
         cls_dataset: Path,
 ) -> str:
     template = jinja_env.get_template("dataset-document.yml")
     with rasterio.open(psh_dataset) as ds:
         ds_tags = ds.tags()
+        crs = ds.crs
         band_names = {}
         for band_number in ds.indexes:
             band_tags = ds.tags(band_number)
